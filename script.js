@@ -90,27 +90,26 @@ form.addEventListener("submit", function(event) {
         status = "Pass";
     }
     // Display student result
-    document.getElementById("showName").textContent =
-        "Student Name: " + name;
+        document.getElementById("showName").innerHTML =
+        'Student Name: <strong>' + name + '</strong>';
 
-    document.getElementById("showTotal").textContent =
-        "Total Marks: " + totalMarks;
+        document.getElementById("showTotal").innerHTML =
+       'Total Marks: <strong>' + totalMarks + '</strong>';
 
-    document.getElementById("showObtained").textContent =
-        "Obtained Marks: " + obtainedMarks;
+        document.getElementById("showObtained").innerHTML =
+        'Obtained Marks: <strong>' + obtainedMarks + '</strong>';
 
-    document.getElementById("showPercentage").textContent =
-        "Percentage: " + percentage.toFixed(2) + "%";
+        document.getElementById("showPercentage").innerHTML =
+        'Percentage: <strong>' + percentage.toFixed(2) + '%</strong>';
 
-    document.getElementById("showGrade").textContent =
-        "Grade: " + grade;
-    // Display only Pass or Fail in color
-    let showStatus = document.getElementById("showStatus");
-    if (status === "Pass") {
-        showStatus.innerHTML = 'Status: <span class="pass">Pass</span>';
-    } else {
-        showStatus.innerHTML = 'Status: <span class="fail">Fail</span>';
-    }
+        document.getElementById("showGrade").innerHTML =
+        'Grade: <strong>' + grade + '</strong>';
+let showStatus = document.getElementById("showStatus");
+if (status === "Pass") {
+    showStatus.innerHTML = 'Status: <strong class="pass">Pass</strong>';
+} else {
+    showStatus.innerHTML = 'Status: <strong class="fail">Fail</strong>';
+}
     // Clear message and show result
     message.textContent = "";
     result.style.display = "block";
