@@ -1,9 +1,67 @@
 let form = document.getElementById("resultForm");
 let message = document.getElementById("message");
 let result = document.getElementById("result");
+// Get saved students from local storage
+let savedData = localStorage.getItem("students");
+let students = [];
+if (savedData !== null) {
+    students = JSON.parse(savedData);
+}
 // Function to show a message
 function showMessage(text) {
     message.textContent = text;
+}
+// Function to display all students
+function displayStudents() {
+    result.innerHTML = "<h2>Student Results</h2>";
+    for (let i = 0; i < students.length; i++) {
+        let student = students[i];
+
+        let card = document.createElement("div");
+        card.className = "student-card";
+
+        let name = document.createElement("p");
+        name.innerHTML = "Student Name: <strong></strong>";
+
+        name.querySelector("strong").textContent = student.name;
+        let total = document.createElement("p");
+        total.innerHTML = "Total Marks: <strong></strong>";
+
+        total.querySelector("strong").textContent = student.totalMarks;
+        let obtained = document.createElement("p");
+
+        obtained.innerHTML = "Obtained Marks: <strong></strong>";
+        obtained.querySelector("strong").textContent = student.obtainedMarks;
+
+        let percentage = document.createElement("p");
+        percentage.innerHTML = "Percentage: <strong></strong>";
+        percentage.querySelector("strong").textContent =
+            student.percentage.toFixed(2) + "%";
+            
+        let grade = document.createElement("p");
+        grade.innerHTML = "Grade: <strong></strong>";
+        grade.querySelector("strong").textContent = student.grade;
+
+        let status = document.createElement("p");
+        status.append("Status: ");
+
+        let statusText = document.createElement("strong");
+        statusText.textContent = student.status;
+
+        if (student.status === "Pass") {
+            statusText.className = "pass";
+        } else {
+            statusText.className = "fail";
+        }
+        status.appendChild(statusText);
+        card.append(name, total, obtained, percentage, grade, status);
+        result.appendChild(card);
+    }
+    result.style.display = "block";
+}
+// Show saved students when page opens
+if (students.length > 0) {
+    displayStudents();
 }
 // Form submit hone par code chalega
 form.addEventListener("submit", function(event) {
@@ -89,28 +147,22 @@ form.addEventListener("submit", function(event) {
     } else {
         status = "Pass";
     }
-    // Display student result
-        document.getElementById("showName").innerHTML =
-        'Student Name: <strong>' + name + '</strong>';
-
-        document.getElementById("showTotal").innerHTML =
-       'Total Marks: <strong>' + totalMarks + '</strong>';
-
-        document.getElementById("showObtained").innerHTML =
-        'Obtained Marks: <strong>' + obtainedMarks + '</strong>';
-
-        document.getElementById("showPercentage").innerHTML =
-        'Percentage: <strong>' + percentage.toFixed(2) + '%</strong>';
-
-        document.getElementById("showGrade").innerHTML =
-        'Grade: <strong>' + grade + '</strong>';
-let showStatus = document.getElementById("showStatus");
-if (status === "Pass") {
-    showStatus.innerHTML = 'Status: <strong class="pass">Pass</strong>';
-} else {
-    showStatus.innerHTML = 'Status: <strong class="fail">Fail</strong>';
-}
-    // Clear message and show result
+    // Create student object
+    let student = {
+        name: name,
+        totalMarks: totalMarks,
+        obtainedMarks: obtainedMarks,
+        percentage: percentage,
+        grade: grade,
+        status: status
+    };
+    // Add student to array
+    students.push(student);
+    // Save all students in local storage
+    localStorage.setItem("students", JSON.stringify(students));
+    // Display all student results
+    displayStudents();
+    // Clear form and message
+    form.reset();
     message.textContent = "";
-    result.style.display = "block";
 });
